@@ -173,8 +173,8 @@ function isInsideCircle(circle, point) {
  *   'abracadabra'  => 'c'
  *   'entente' => null
  */
-function findFirstSingleChar(/* str */) {
-  throw new Error('Not implemented');
+function findFirstSingleChar(str) {
+  return str.match(/[a-z]/gi).find((x, _, arr) => arr.indexOf(x) === arr.lastIndexOf(x));
 }
 
 
@@ -200,8 +200,11 @@ function findFirstSingleChar(/* str */) {
  *   5, 3, true, true   => '[3, 5]'
  *
  */
-function getIntervalString(/* a, b, isStartIncluded, isEndIncluded */) {
-  throw new Error('Not implemented');
+function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
+  const start = isStartIncluded ? '[' : '(';
+  const finish = isEndIncluded ? ']' : ')';
+  const numbers = [a, b].sort().join(', ');
+  return `${start}${numbers}${finish}`;
 }
 
 
@@ -259,8 +262,18 @@ function reverseInteger(num) {
  *   5436468789016589 => false
  *   4916123456789012 => false
  */
-function isCreditCardNumber(/* ccn */) {
-  throw new Error('Not implemented');
+function isCreditCardNumber(ccn) {
+  let checkSum = 0;
+  const cardNumbers = ccn.toString().split('').map(Number).reverse();
+  cardNumbers.forEach((x, i) => {
+    if (i % 2 !== 0) {
+      const tempNum = x * 2;
+      checkSum += tempNum > 9 ? tempNum - 9 : tempNum;
+    } else {
+      checkSum += x;
+    }
+  });
+  return checkSum % 10 === 0;
 }
 
 /**
@@ -305,8 +318,16 @@ function getDigitalRoot(num) {
  *   '{)' = false
  *   '{[(<{[]}>)]}' = true
  */
-function isBracketsBalanced(/* str */) {
-  throw new Error('Not implemented');
+function isBracketsBalanced(str) {
+  const arr = ['{}', '[]', '()', '<>'];
+  let newStr = str;
+  for (let i = 0; i < arr.length;) {
+    if (newStr.includes(arr[i])) {
+      newStr = newStr.replace(arr[i], '');
+      i = 0;
+    } else i += 1;
+  }
+  return newStr.length === 0;
 }
 
 
